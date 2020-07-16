@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/store">Store</a></li>
+            <li><a href="/signup">Register</a></li>
+        </ul>
+    </nav>
+    <div>
+        <h2>Add Products</h2>
+        <form action="/" method="POST">
+            <label for="Product Name">Product Name</label><br>
+            <input type="text" name="name"><br>
+
+            <label for="avatar">Choose a profile picture:</label><br>
+
+            <input type="file" name="product image"><br>
+
+            <label for="Product Description">Product Description</label><br>
+            <input type="text" name="description"><br>
+
+            <label for="Price"></label>Price<br>
+            <input type="text" name="price"><br>
+
+            <label for="Total Number of Products">Total Number of Products</label><br>
+            <input type="number" name="quantity"><br>
+
+            <label for="Product Tags">Product Tags (Seperate tags by commas)</label><br>
+            <input type="text" name="tags"><br>
+
+            <input type="submit" value="Add Product"><br>
+        </form>
+    </div>
+
+    <div>
+        <h2>Edit Existing Products</h2>
+        <input type="search" name="q">
+
+        <button>Search Product Name</button>
+
+    </div>
+</body>
+</html>
