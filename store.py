@@ -5,9 +5,10 @@ from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms.validators import DataRequired, Email, Length, EqualTo
 from datetime import datetime
 from models import Users
+
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -60,35 +61,27 @@ def dashboard():
                 return redirect(request.url)
     return render_template("dashboard.html")
 
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if request.method == "POST":
-        firstname = request.form["firstname"]
-        lastname = request.form["lastname"]
-        email_id = request.form["email"]
-        passphrase = request.form["password"]
-        exists = Users.query.filter_by(user_email=email_id).first()
-        if exists != None:
-            duplicate =  '<span>An account with this username already exists</span>'
-            return duplicate
-        query = Users(first_name=firstname,last_name=lastname, user_email=email_id, password=passphrase, created_on=datetime.now())
-        db.session.add(query)
-        db.session.commit()
-        return redirect(url_for("signup"))
-    return render_template("signup.html")
-
-class login_form(FlaskForm):
-    email = StringField('email', validators=[DataRequired(), Email(message='Enter a valid Email')])
-    passwd = StringField('password', validators=[DataRequired()])  
-    submit = SubmitField('Log In')
+    form = SignupForm(request.method)
+    if form.validate_on_submit():
+        existing_user = Users.query.filter_by(user_email=form.email.data).first()
+        if existing_user == None:
+            query = Users(first_name=form.firstname.data,last_name=form.lastname.data, user_email=form.email.data, password=form.password.data, created_on=datetime.now())
+            db.session.add(query)
+            db.session.commit()
+            return redirect("/")
+        flash('A user already exists with this email.')
+    return render_template("signup.html", form=form)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = login_form(request.method)
     if request.method == "POST":
         form.email = request.form["email"]
-        password = request.form["password"]
+        form.password = request.form["password"]
         
-    return render_template("login.html")
+    return render_template("login.html", form=form)
 if __name__=="__main__":
     app.run(debug=True)

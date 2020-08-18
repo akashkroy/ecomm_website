@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 
 {% block div %}
+<h2>Sign Up</h2>
 <form action="/signup" method="POST">
-<label for="firstname">First Name :</label><br>
-<input type="text" name="firstname"><br>
-<label for="lastname">Last name</label><br>
-<input type="text" name="lastname"><br>
-<label for="email">Email </label><br>
-<input type="email" name="email"><br>
-<label for="password">Password</label><br>
-<input type="password" name="password"><br>
-<input type="submit" value="Sign Up"><br>
+    {{ form.csrf_token }}
+    {{ form.firstname.label }}<br>
+    {{ form.firstname }}<br>
+    {{ form.lastname.label }}<br>
+    {{ form.lastname }}<br>
+    {{ form.email.label }}<br>
+    {{ form.email }}<br>
+    {{ form.password.label }}<br>
+    {{ form.password }}<br>
+    {{ form.submit }}<br>
 </form>
 
 {% endblock %}
